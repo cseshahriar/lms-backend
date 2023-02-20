@@ -14,6 +14,9 @@ class CourseCategory(models.Model):
     title = models.CharField(max_length=150, unique=True)
     description = models.TextField()
 
+    class Meta:
+        verbose_name_plural = "Course Categories"
+
 
 class Course(models.Model):
     category = models.ForeignKey(
