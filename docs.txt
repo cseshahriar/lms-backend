@@ -1,0 +1,5 @@
+python manage.py drf_create_token -r shosen
+2393daf80e5c176158755a0558de1b362f4736d5
+
+# teachers api endpoint
+http://127.0.0.1:8000/api/teachers/ [get, post]
