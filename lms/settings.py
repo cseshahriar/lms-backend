@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # custom apps
-    'main',
+    'teachers',
+    'students',
 ]
 
 MIDDLEWARE = [
