@@ -14,3 +14,14 @@ class CourseCategory(models.Model):
     title = models.CharField(max_length=150, unique=True)
     description = models.TextField()
 
+
+class Course(models.Model):
+    category = models.ForeignKey(
+        CourseCategory, on_delete=models.PROTECT,
+        related_name='category_courses'
+    )
+    teacher = models.ForeignKey(
+        Teacher, on_delete=models.PROTECT, related_name='teacher_courses'
+    )
+    title = models.CharField(max_length=150, unique=True)
+    description = models.TextField()
