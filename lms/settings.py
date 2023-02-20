@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-(4yhnjrgaq2x8-$deu_e3imuwm9(swl+mu6ok6_pwmsuseuepg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +40,9 @@ INSTALLED_APPS = [
 
     # third party libraries
     'rest_framework',
+
+    # custom apps
+    'main',
 ]
 
 MIDDLEWARE = [
@@ -78,9 +81,12 @@ WSGI_APPLICATION = 'lms.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': 'localhost',
+        'NAME': 'lms_db',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+    },
 }
 
 
