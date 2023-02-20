@@ -8,3 +8,9 @@ class Teacher(models.Model):
     qualification = models.CharField(max_length=200)
     mobile_no = models.CharField(max_length=20)
     address = models.TextField()
+
+
+class CourseCategory(models.Model):
+    title = models.CharField(max_length=150, unique=True)
+    description = models.TextField()
+
