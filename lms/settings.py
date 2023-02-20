@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # third party libraries
     'rest_framework',
+    'django_extensions',
 
     # custom apps
     'teachers',
