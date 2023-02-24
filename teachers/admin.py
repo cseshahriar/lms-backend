@@ -13,7 +13,7 @@ class TeacherAdmin(admin.ModelAdmin):
         'password',
         'qualification',
         'mobile_no',
-        'address',
+        'skills',
     )
 
 
