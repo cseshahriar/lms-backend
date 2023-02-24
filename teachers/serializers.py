@@ -10,3 +10,7 @@ class TeacherSerializer(serializers.ModelSerializer):
             'id', 'full_name', 'email', 'password', 'qualification',
             'mobile_no', 'skills',
         )
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'password': {'write_only': True},
+        }

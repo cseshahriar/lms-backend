@@ -11,7 +11,7 @@ from . import models
 class TeacherListCreateAPIView(generics.ListCreateAPIView):
     queryset = models.Teacher.objects.all()
     serializer_class = TeacherSerializer
-    permission_classes = (permissions.IsAuthenticated, )
+    # permission_classes = (permissions.IsAuthenticated, )
 
 
 class TeacherDetailUpdateDeleteAPIView(
