@@ -9,6 +9,9 @@ class Teacher(models.Model):
     mobile_no = models.CharField(max_length=20)
     skills = models.TextField()
 
+    def __str__(self):
+        return self.full_name
+
 
 class CourseCategory(models.Model):
     title = models.CharField(max_length=150, unique=True)
@@ -16,6 +19,9 @@ class CourseCategory(models.Model):
 
     class Meta:
         verbose_name_plural = "Course Categories"
+
+    def __str__(self):
+        return self.title
 
 
 class Course(models.Model):
