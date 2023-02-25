@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Teacher, CourseCategory
+from .models import Teacher, CourseCategory, Course
 
 
 class TeacherSerializer(serializers.ModelSerializer):
@@ -21,6 +21,13 @@ class CourseCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseCategory
         fields = ('id', 'title', 'description', )
-        extra_kwargs = {
-            'id': {'read_only': True}
-        }
+
+
+class CourseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Course
+        fields = (
+            'id', 'category', 'title', 'description', 'teacher',
+            'featured_img', 'technologies'
+        )

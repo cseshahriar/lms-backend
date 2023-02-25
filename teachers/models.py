@@ -28,8 +28,8 @@ class Course(models.Model):
     )
     title = models.CharField(max_length=150, unique=True)
     description = models.TextField()
-    featured_img = models.ImageField(upload_to='course_images/')
-    technologies = models.TextField()
+    featured_img = models.ImageField(upload_to='course_images/', null=True)
+    technologies = models.TextField(null=True)
 
     def __str__(self):
         return self.title
