@@ -2,8 +2,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import generics
-from django.views.decorators import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from rest_framework.decorators import api_view
 
 
 from .serializers import TeacherSerializer
@@ -24,11 +25,16 @@ class TeacherDetailUpdateDeleteAPIView(
     permission_classes = (permissions.IsAuthenticated, )
 
 
+@csrf_exempt
+@api_view(['POST'])
 def teacher_login(request):
-    email = request.POST.get('email')
-    password = request.POST.get('password')
-    teacher = models.Teacher.objects.get(email=email, password=password)
-    if teacher:
-        return JsonResponse({'bool': True})
-    else:
-        return JsonResponse({'bool': False})
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        print('-', 'data', email, password)
+        teacher = models.Teacher.objects.filter(email=email).first()
+        print('-' * 30, 'teachers', teacher)
+        if teacher:
+            return JsonResponse({'bool': True})
+        else:
+            return JsonResponse({'bool': False})

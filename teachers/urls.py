@@ -7,5 +7,5 @@ urlpatterns = [
     path(
         '<int:pk>/', views.TeacherDetailUpdateDeleteAPIView.as_view()
     ),
-    path('teacher-login/', views.teacher_login),
+    path('login/', views.teacher_login),
 ]
