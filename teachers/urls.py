@@ -3,9 +3,11 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.TeacherListCreateAPIView.as_view()),
+    path('teachers/', views.TeacherListCreateAPIView.as_view()),
     path(
-        '<int:pk>/', views.TeacherDetailUpdateDeleteAPIView.as_view()
+        'teachers/<int:pk>/', views.TeacherDetailUpdateDeleteAPIView.as_view()
     ),
-    path('login/', views.teacher_login),
+    path('teachers/login/', views.teacher_login),
+
+    path('categories/', views.CategoryListAPIView.as_view()),
 ]

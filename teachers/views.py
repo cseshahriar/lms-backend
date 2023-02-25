@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
 
-from .serializers import TeacherSerializer
+from .serializers import TeacherSerializer, CourseCategorySerializer
 from . import models
 
 
@@ -31,10 +31,16 @@ def teacher_login(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
-        print('-', 'data', email, password)
-        teacher = models.Teacher.objects.filter(email=email).first()
-        print('-' * 30, 'teachers', teacher)
+        teacher = models.Teacher.objects.filter(
+            email=email, password=password
+        ).first()
         if teacher:
             return JsonResponse({'bool': True})
         else:
             return JsonResponse({'bool': False})
+
+
+class CategoryListAPIView(generics.ListAPIView):
+    queryset = models.CourseCategory.objects.all()
+    serializer_class = CourseCategorySerializer
+    # permission_classes = (permissions.IsAuthenticated, )
