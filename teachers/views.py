@@ -4,6 +4,7 @@ from rest_framework import permissions
 from rest_framework import generics
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import api_view
 
 from .serializers import (
@@ -16,6 +17,14 @@ class TeacherListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = TeacherSerializer
     # permission_classes = (permissions.IsAuthenticated, )
 
+    def perform_create(self, serializer):
+        # Hash password but passwords are not required
+        if ('password' in self.request.data):
+            password = make_password(self.request.data['password'])
+            serializer.save(password=password)
+        else:
+            serializer.save()
+
 
 class TeacherDetailUpdateDeleteAPIView(
     generics.RetrieveUpdateDestroyAPIView
@@ -23,6 +32,14 @@ class TeacherDetailUpdateDeleteAPIView(
     queryset = models.Teacher.objects.all()
     serializer_class = TeacherSerializer
     permission_classes = (permissions.IsAuthenticated, )
+
+    def perform_update(self, serializer):
+        # Hash password but passwords are not required
+        if ('password' in self.request.data):
+            password = make_password(self.request.data['password'])
+            serializer.save(password=password)
+        else:
+            serializer.save()
 
 
 @csrf_exempt
