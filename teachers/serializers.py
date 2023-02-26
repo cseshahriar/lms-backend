@@ -24,6 +24,7 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
+    teacher = TeacherSerializer(read_only=True, many=False)
 
     class Meta:
         model = Course

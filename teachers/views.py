@@ -59,4 +59,4 @@ class TeacherCourseListAPIView(generics.ListAPIView):
     def get_queryset(self):
         teacher_id = self.kwargs['teacher_id']
         teacher = models.Teacher.objects.filter(id=teacher_id).first()
-        return self.models.Course.objects.filter(teacher=teacher)
+        return models.Course.objects.filter(teacher=teacher)
