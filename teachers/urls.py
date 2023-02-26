@@ -8,7 +8,8 @@ urlpatterns = [
     path(
         'teachers/<int:pk>/', views.TeacherDetailUpdateDeleteAPIView.as_view()
     ),
-    path('teachers/login/', views.teacher_login),
+    path('teachers/login/', views.TeacherLoginAPIView.as_view()),
+    # path('teachers/login/', views.teacher_login),
 
     # categories
     path('categories/', views.CategoryListAPIView.as_view()),

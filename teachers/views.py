@@ -1,12 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework import permissions
 from rest_framework import generics
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import api_view
-
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 from .serializers import (
     TeacherSerializer, CourseCategorySerializer, CourseSerializer)
 from . import models
@@ -42,20 +43,29 @@ class TeacherDetailUpdateDeleteAPIView(
             serializer.save()
 
 
-@csrf_exempt
-@api_view(['POST'])
-def teacher_login(request):
-    if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
-        teacher = models.Teacher.objects.filter(
-            email=email, password=password
-        ).first()
+class TeacherLoginAPIView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        teacher = models.Teacher.objects.filter(email=email).first()
         if teacher:
-            return JsonResponse({'bool': True})
+            if check_password(password, teacher.password):
+                data = {
+                    'teacher_id': teacher.id,
+                    'teacher_full_name': teacher.full_name,
+                    'teacher_email': teacher.email
+                }
+                return Response(data, status=status.HTTP_200_OK)
+            else:
+                return Response(
+                    {'error': 'Invalid credentials'},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
         else:
-            return JsonResponse({'bool': False})
-
+            return Response(
+                {'error': 'User did not found.'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
 class CategoryListAPIView(generics.ListAPIView):
     queryset = models.CourseCategory.objects.all()
