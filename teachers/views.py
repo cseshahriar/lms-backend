@@ -50,3 +50,13 @@ class CourseListCreateAPIView(generics.ListCreateAPIView):
     queryset = models.Course.objects.all()
     serializer_class = CourseSerializer
     # permission_classes = (permissions.IsAuthenticated, )
+
+
+class TeacherCourseListAPIView(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
+
+    def get_queryset(self):
+        teacher_id = self.kwargs['teacher_id']
+        teacher = models.Teacher.objects.filter(id=teacher_id).first()
+        return self.models.Course.objects.filter(teacher=teacher)
