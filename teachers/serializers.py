@@ -24,11 +24,14 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
-    teacher = TeacherSerializer(read_only=True, many=False)
-
     class Meta:
         model = Course
         fields = (
             'id', 'category', 'title', 'description', 'teacher',
             'featured_img', 'technologies'
         )
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['teacher'] = TeacherSerializer(instance.teacher).data
+        return response
