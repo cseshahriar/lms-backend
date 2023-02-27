@@ -36,6 +36,7 @@ class CourseSerializer(serializers.ModelSerializer):
         response['teacher'] = TeacherSerializer(instance.teacher).data
         return response
 
+
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter

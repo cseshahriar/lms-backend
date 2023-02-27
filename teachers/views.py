@@ -9,7 +9,9 @@ from rest_framework.decorators import api_view
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 from .serializers import (
-    TeacherSerializer, CourseCategorySerializer, CourseSerializer)
+    TeacherSerializer, CourseCategorySerializer, CourseSerializer,
+    ChapterSerializer
+)
 from . import models
 
 
@@ -67,6 +69,7 @@ class TeacherLoginAPIView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
+
 class CategoryListAPIView(generics.ListAPIView):
     queryset = models.CourseCategory.objects.all()
     serializer_class = CourseCategorySerializer
@@ -87,3 +90,13 @@ class TeacherCourseListAPIView(generics.ListAPIView):
         teacher_id = self.kwargs['teacher_id']
         teacher = models.Teacher.objects.filter(id=teacher_id).first()
         return models.Course.objects.filter(teacher=teacher)
+
+
+class ChapterListCreateAPIView(generics.ListCreateAPIView):
+    serializer_class = ChapterSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
+
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = models.Course.objects.filter(id=course_id).first()
+        return models.Chapter.objects.filter(course=course)
