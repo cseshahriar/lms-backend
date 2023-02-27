@@ -17,6 +17,10 @@ urlpatterns = [
     # courses
     path('courses/', views.CourseListCreateAPIView.as_view()),
     path(
+        'courses/<int:pk>/',
+        views.CourseRetrieveUpdateDeleteAPIView.as_view()
+    ),
+    path(
         'teacher/<int:teacher_id>/courses/',
         views.TeacherCourseListAPIView.as_view()
     ),

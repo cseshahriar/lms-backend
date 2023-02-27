@@ -34,6 +34,7 @@ class CourseSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['teacher'] = TeacherSerializer(instance.teacher).data
+        response['category'] = CourseCategorySerializer(instance.category).data
         return response
 
 
