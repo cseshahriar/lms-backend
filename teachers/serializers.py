@@ -51,5 +51,5 @@ class ChapterSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
-        response['course'] = CourseSerializer(instance.teacher).data
+        response['course'] = CourseSerializer(instance.course).data
         return response
