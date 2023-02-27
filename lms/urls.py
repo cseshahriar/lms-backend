@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 from .aysg import urlpatterns as api_doc_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
     path('api/', include('teachers.urls')),
 ]
 
