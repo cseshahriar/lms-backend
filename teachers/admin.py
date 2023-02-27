@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from .models import Teacher, CourseCategory, Course
+from .models import Teacher, CourseCategory, Course, Chapter
 
 
 @admin.register(Teacher)
@@ -26,3 +26,16 @@ class CourseCategoryAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('id', 'category', 'teacher', 'title', 'description')
     list_filter = ('category', 'teacher')
+
+
+@admin.register(Chapter)
+class ChapterAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'course',
+        'title',
+        'description',
+        'video',
+        'remarks',
+    )
+    list_filter = ('course',)

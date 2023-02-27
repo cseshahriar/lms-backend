@@ -39,3 +39,25 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+
+def video_upload_path(instance, filename):
+    """Custom file 'upload_to' directory returned from formatted string"""
+    return f'chapter/{instance.id}/videos/{filename}'
+
+
+class Chapter(models.Model):
+    course = models.ForeignKey(
+        Course, on_delete=models.PROTECT,
+        related_name='course_chapters'
+    )
+    title = models.CharField(max_length=150, unique=True)
+    description = models.TextField()
+    video = models.FileField(upload_to=video_upload_path, null=True)
+    remarks = models.TextField(null=True)
+
+    class Meta:
+        verbose_name_plural = 'Chapters'
+
+    def __str__(self):
+        return self.title
