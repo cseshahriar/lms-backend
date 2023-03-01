@@ -106,3 +106,9 @@ class ChapterListCreateAPIView(generics.ListCreateAPIView):
         course_id = self.kwargs['course_id']
         course = models.Course.objects.filter(id=course_id).first()
         return models.Chapter.objects.filter(course=course)
+
+
+class ChapterRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):  # noqa
+    queryset = models.Chapter.objects.all()
+    serializer_class = ChapterSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
