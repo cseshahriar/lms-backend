@@ -81,6 +81,14 @@ class CourseListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CourseSerializer
     # permission_classes = (permissions.IsAuthenticated, )
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if 'limit' in self.request.GET:
+            limit = int(self.request.GET.get('limit'))
+            qs = models.Course.objects.all().order_by('-id')[:limit]
+            print('-' * 30, 'qs', qs)
+        return qs
+
 
 class CourseRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Course.objects.all()
