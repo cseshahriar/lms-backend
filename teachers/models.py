@@ -40,6 +40,10 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def chapters(self):
+        return self.course_chapters.values()
+
 
 def video_upload_path(instance, filename):
     """Custom file 'upload_to' directory returned from formatted string"""

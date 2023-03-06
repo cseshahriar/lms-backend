@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.response import Response
 from .models import Teacher, CourseCategory, Course, Chapter
 
 
@@ -24,11 +25,12 @@ class CourseCategorySerializer(serializers.ModelSerializer):
 
 
 class CourseSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Course
         fields = (
             'id', 'category', 'title', 'description', 'teacher',
-            'featured_img', 'technologies'
+            'featured_img', 'technologies', 'chapters'
         )
 
     def to_representation(self, instance):
