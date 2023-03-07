@@ -47,7 +47,7 @@ class Course(models.Model):
 
 def video_upload_path(instance, filename):
     """Custom file 'upload_to' directory returned from formatted string"""
-    return f'chapter/{instance.id}/videos/{filename}'
+    return f'chapter/{instance.pk}/videos/{filename}'
 
 
 class Chapter(models.Model):

@@ -12,12 +12,12 @@ urlpatterns = [
     path('api/', include('teachers.urls')),
 ]
 
-if settings.DEBUG is True:
-    urlpatterns += [
-        path('api-auth/', include('rest_framework.urls')),
-    ]
+if settings.DEBUG:
     urlpatterns += static(
         settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT
     )
+    urlpatterns += [
+        path('api-auth/', include('rest_framework.urls')),
+    ]
     urlpatterns += api_doc_urls
