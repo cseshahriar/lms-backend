@@ -83,10 +83,17 @@ class CourseListCreateAPIView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+
+        if 'category' in self.request.GET:
+            slug = self.request.GET.get('category')
+            qs = models.Course.objects.filter(
+                category__title=slug
+            ).order_by('-id')
+
         if 'limit' in self.request.GET:
             limit = int(self.request.GET.get('limit'))
             qs = models.Course.objects.all().order_by('-id')[:limit]
-            print('-' * 30, 'qs', qs)
+
         return qs
 
 
