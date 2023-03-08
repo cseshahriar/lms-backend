@@ -10,6 +10,7 @@ from .aysg import urlpatterns as api_doc_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('teachers.urls')),
+    path('api/', include('students.urls')),
 ]
 
 if settings.DEBUG:
