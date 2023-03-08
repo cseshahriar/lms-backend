@@ -34,7 +34,7 @@ class TeacherDetailUpdateDeleteAPIView(
 ):
     queryset = models.Teacher.objects.all()
     serializer_class = TeacherSerializer
-    permission_classes = (permissions.IsAuthenticated, )
+    # permission_classes = (permissions.IsAuthenticated, )
 
     def perform_update(self, serializer):
         # Hash password but passwords are not required
