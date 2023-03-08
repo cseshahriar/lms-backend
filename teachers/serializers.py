@@ -30,13 +30,15 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = (
             'id', 'category', 'title', 'description', 'teacher',
-            'featured_img', 'technologies', 'chapters'
+            'featured_img', 'technologies', 'course_chapters'
         )
+        depth = 1
+        # depth 1 is like to_representation and course_chapters is related name
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['teacher'] = TeacherSerializer(instance.teacher).data
-        response['category'] = CourseCategorySerializer(instance.category).data
+        # response['category'] = CourseCategorySerializer(instance.category).data
         return response
 
 
