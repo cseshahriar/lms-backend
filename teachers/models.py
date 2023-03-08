@@ -11,6 +11,10 @@ class Teacher(models.Model):
     mobile_no = models.CharField(max_length=20)
     skills = models.TextField()
 
+    def skill_list(self):
+        """ return list of skills"""
+        return self.skills.split(',')
+
     def __str__(self):
         return self.full_name
 
