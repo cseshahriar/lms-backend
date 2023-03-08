@@ -9,7 +9,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = Teacher
         fields = (
             'id', 'full_name', 'detail', 'email', 'password', 'qualification',
-            'mobile_no', 'skills', 'teacher_courses', 'skills_list'
+            'mobile_no', 'skills', 'teacher_courses', 'skill_list'
         )
         extra_kwargs = {
             'id': {'read_only': True},
