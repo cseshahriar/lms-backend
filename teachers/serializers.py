@@ -30,7 +30,8 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = (
             'id', 'category', 'title', 'description', 'teacher',
-            'featured_img', 'technologies', 'course_chapters'
+            'featured_img', 'technologies', 'course_chapters',
+            'related_courses'
         )
         depth = 1
         # depth 1 is like to_representation and course_chapters is related name

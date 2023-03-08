@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.db import models
 
 
@@ -40,9 +41,11 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
-    @property
-    def chapters(self):
-        return self.course_chapters.values()
+    def related_courses(self):
+        data = Course.objects.filter(
+            technologies__icontains=self.technologies
+        ).exclude(pk=self.pk)
+        return serializers.serialize('json', data)
 
 
 def video_upload_path(instance, filename):
