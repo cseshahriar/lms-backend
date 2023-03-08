@@ -46,6 +46,10 @@ class Course(models.Model):
     def __str__(self):
         return self.title
 
+    def skill_list(self):
+        """ return list of skills"""
+        return self.technologies.split(',')
+
     def related_courses(self):
         data = Course.objects.filter(
             technologies__icontains=self.technologies
