@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework.response import Response
+from django.core.validators import EmailValidator
 from .models import Teacher, CourseCategory, Course, Chapter
 
 
@@ -13,7 +14,8 @@ class TeacherSerializer(serializers.ModelSerializer):
         )
         extra_kwargs = {
             'id': {'read_only': True},
-            'password': {'write_only': True},
+            'password': {'write_only': True, 'required': True},
+            'email': {'required': True},
         }
         depth = 1
 
