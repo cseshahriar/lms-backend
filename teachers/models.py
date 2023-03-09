@@ -50,12 +50,6 @@ class Course(models.Model):
         """ return list of skills"""
         return self.technologies.split(',')
 
-    def related_courses(self):
-        data = Course.objects.filter(
-            technologies__icontains=self.technologies
-        ).exclude(pk=self.pk)
-        return serializers.serialize('json', data)
-
 
 def video_upload_path(instance, filename):
     """Custom file 'upload_to' directory returned from formatted string"""

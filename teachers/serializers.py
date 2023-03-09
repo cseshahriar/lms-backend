@@ -27,14 +27,38 @@ class CourseCategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', )
 
 
-class CourseSerializer(serializers.ModelSerializer):
+class CourseChapterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chapter
+        fields = (
+            'id',
+            'title',
+            'description',
+            'video',
+            'remarks',
+        )
+
+
+class RelatedCourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
         fields = (
             'id', 'category', 'title', 'description', 'teacher',
-            'featured_img', 'technologies', 'course_chapters',
-            'related_courses', 'skill_list'
+            'featured_img', 'technologies',
+        )
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    course_chapters = CourseChapterSerializer(many=True, read_only=True)
+    related_courses = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Course
+        fields = (
+            'id', 'category', 'title', 'description', 'teacher',
+            'featured_img', 'technologies',
+            'skill_list', 'course_chapters', 'related_courses'
         )
         extra_kwargs = {
             'id': {'read_only': True},
@@ -42,6 +66,13 @@ class CourseSerializer(serializers.ModelSerializer):
         }
         # depth = 1
         # depth 1 is like to_representation and course_chapters is related name
+
+    def get_related_courses(self, obj):
+        related_courses = Course.objects.filter(
+            technologies__icontains=obj.technologies
+        ).exclude(pk=obj.pk)
+        related_course_serializer = RelatedCourseSerializer(related_courses, many=True)  # noqa
+        return related_course_serializer.data
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
