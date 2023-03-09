@@ -51,7 +51,7 @@ class RelatedCourseSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.ModelSerializer):
     course_chapters = CourseChapterSerializer(many=True, read_only=True)
-    related_courses = serializers.SerializerMethodField()
+    related_courses = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Course
