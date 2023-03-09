@@ -36,8 +36,13 @@ class CourseSerializer(serializers.ModelSerializer):
             'featured_img', 'technologies', 'course_chapters',
             'related_courses', 'skill_list'
         )
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'category': {'required': True},
+        }
         depth = 1
         # depth 1 is like to_representation and course_chapters is related name
+
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
