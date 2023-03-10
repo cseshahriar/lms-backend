@@ -1,4 +1,5 @@
 from django.db import models
+from teachers.models import Course
 
 
 class Student(models.Model):
@@ -9,3 +10,22 @@ class Student(models.Model):
     mobile_no = models.CharField(max_length=20)
     address = models.TextField()
     interested_categories = models.TextField()
+
+    def __str__(self):
+        return self.student.full_name
+
+
+class StudentCourseEnrolment(models.Model):
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name="enrolled_courses"
+    )
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE, related_name="enrolled_students"
+    )
+    enrolled_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['course', 'student']
+
+    def __str__(self):
+        return self.student.full_name
