@@ -12,7 +12,7 @@ class Student(models.Model):
     interested_categories = models.TextField()
 
     def __str__(self):
-        return self.student.full_name
+        return self.full_name
 
 
 class StudentCourseEnrolment(models.Model):

@@ -9,4 +9,6 @@ urlpatterns = [
         'students/<int:pk>/', views.StudentDetailUpdateDeleteAPIView.as_view()
     ),
     path('students/login/', views.StudentLoginAPIView.as_view()),
+    # enrollment
+    path('enrollments/', views.StudentEnrollmentListCreateAPIView.as_view()),
 ]

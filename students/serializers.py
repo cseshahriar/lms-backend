@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from rest_framework.response import Response
-from .models import Student
+from rest_framework.validators import UniqueTogetherValidator
+
+from .models import Student, StudentCourseEnrolment
+
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -16,3 +18,17 @@ class StudentSerializer(serializers.ModelSerializer):
             'password': {'write_only': True},
         }
         depth = 1
+
+
+class StudentCourseEnrolmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentCourseEnrolment
+        fields = ('id', 'course', 'student', 'enrolled_time')
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=StudentCourseEnrolment.objects.all(),
+                fields=['course', 'student'],
+                message="This course you are already taken."
+            )
+        ]

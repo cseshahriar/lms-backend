@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 
-from .models import Student
+from .models import Student, StudentCourseEnrolment
 
 
 @admin.register(Student)
@@ -16,3 +16,9 @@ class StudentAdmin(admin.ModelAdmin):
         'address',
         'interested_categories',
     )
+
+
+@admin.register(StudentCourseEnrolment)
+class StudentCourseEnrolmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'course', 'student', 'enrolled_time')
+    list_filter = ('course', 'student', 'enrolled_time')

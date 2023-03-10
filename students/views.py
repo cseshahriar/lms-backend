@@ -11,9 +11,9 @@ from django.contrib.auth.hashers import check_password
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .serializers import (
-    StudentSerializer
+    StudentSerializer, StudentCourseEnrolmentSerializer
 )
-from .models import Student
+from .models import Student, StudentCourseEnrolment
 
 
 class StudentListCreateAPIView(generics.ListCreateAPIView):
@@ -92,3 +92,9 @@ class StudentLoginAPIView(APIView):
                 {'error': 'User did not found.'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
+
+
+class StudentEnrollmentListCreateAPIView(generics.ListCreateAPIView):
+    queryset = StudentCourseEnrolment.objects.all()
+    serializer_class = StudentCourseEnrolmentSerializer
+    # permission_classes = (permissions.IsAuthenticated, )
