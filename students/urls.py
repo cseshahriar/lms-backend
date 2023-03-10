@@ -11,4 +11,8 @@ urlpatterns = [
     path('students/login/', views.StudentLoginAPIView.as_view()),
     # enrollment
     path('enrollments/', views.StudentEnrollmentListCreateAPIView.as_view()),
+    path(
+        'enrollment_status/<int:course_id>/<int:student_id>/',
+        views.enrollment_status
+    ),
 ]

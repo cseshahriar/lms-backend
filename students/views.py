@@ -115,3 +115,12 @@ class StudentEnrollmentListCreateAPIView(generics.ListCreateAPIView):
             ).order_by('-id')
 
         return qs
+
+
+@api_view(['GET'])
+def enrollment_status(request, course_id, student_id):
+    if StudentCourseEnrolment.objects.filter(
+        course_id=course_id, student_id=student_id
+    ).exists():
+        return JsonResponse({'bool': True})
+    return JsonResponse({'bool': False})

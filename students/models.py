@@ -28,4 +28,4 @@ class StudentCourseEnrolment(models.Model):
         unique_together = ['course', 'student']
 
     def __str__(self):
-        return self.student.full_name
+        return f"{self.course.title} - {self.student.full_name}"
