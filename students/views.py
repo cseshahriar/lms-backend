@@ -98,3 +98,20 @@ class StudentEnrollmentListCreateAPIView(generics.ListCreateAPIView):
     queryset = StudentCourseEnrolment.objects.all()
     serializer_class = StudentCourseEnrolmentSerializer
     # permission_classes = (permissions.IsAuthenticated, )
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        if 'course_id' in self.request.GET:
+            course_id = int(self.request.GET.get('course_id'))
+            qs = qs.filter(
+                course_id=course_id
+            ).order_by('-id')
+
+        if 'student_id' in self.request.GET:
+            student_id = int(self.request.GET.get('student_id'))
+            qs = qs.filter(
+                student_id=student_id
+            ).order_by('-id')
+
+        return qs
