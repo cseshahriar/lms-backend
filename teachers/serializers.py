@@ -58,7 +58,8 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'category', 'title', 'description', 'teacher',
             'featured_img', 'technologies',
-            'skill_list', 'course_chapters', 'related_courses'
+            'skill_list', 'course_chapters', 'related_courses',
+            'total_enrolled_students'
         )
         extra_kwargs = {
             'id': {'read_only': True},

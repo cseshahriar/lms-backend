@@ -50,6 +50,9 @@ class Course(models.Model):
         """ return list of skills"""
         return self.technologies.split(',')
 
+    def total_enrolled_students(self):
+        return self.enrolled_courses.all().count()
+
 
 def video_upload_path(instance, filename):
     """Custom file 'upload_to' directory returned from formatted string"""
