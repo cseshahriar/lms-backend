@@ -32,3 +32,4 @@ class StudentCourseEnrolmentSerializer(serializers.ModelSerializer):
                 message="This course you are already taken."
             )
         ]
+        depth = 1

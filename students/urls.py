@@ -15,4 +15,8 @@ urlpatterns = [
         'enrollment_status/<int:course_id>/<int:student_id>/',
         views.enrollment_status
     ),
+    path(
+        'enrollments/courses/<int:course_id>/',
+        views.EnrolledStudentListAPIView.as_view()
+    ),
 ]
