@@ -14,6 +14,7 @@ from .serializers import (
     StudentSerializer, StudentCourseEnrolmentSerializer
 )
 from .models import Student, StudentCourseEnrolment
+from teachers.models import Course
 
 
 class StudentListCreateAPIView(generics.ListCreateAPIView):
@@ -102,17 +103,26 @@ class StudentEnrollmentListCreateAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
 
+        # return course_id by teacher
         if 'course_id' in self.request.GET:
             course_id = int(self.request.GET.get('course_id'))
             qs = qs.filter(
                 course_id=course_id
             ).order_by('-id')
 
+        # return student_id by teacher
         if 'student_id' in self.request.GET:
             student_id = int(self.request.GET.get('student_id'))
             qs = qs.filter(
                 student_id=student_id
             ).order_by('-id')
+
+        # return course by teacher
+        if 'teacher_id' in self.request.GET:
+            teacher_id = int(self.request.GET.get('teacher_id'))
+            qs = qs.filter(
+                course__teacher_id=teacher_id
+            ).distinct('student')
 
         return qs
 
