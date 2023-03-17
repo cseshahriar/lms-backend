@@ -10,6 +10,7 @@ class Teacher(models.Model):
     qualification = models.CharField(max_length=200)
     mobile_no = models.CharField(max_length=20)
     skills = models.TextField()
+    photo = models.ImageField(upload_to='teacher_images/', null=True)
 
     def skill_list(self):
         """ return list of skills"""

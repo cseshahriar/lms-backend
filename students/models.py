@@ -11,6 +11,7 @@ class Student(models.Model):
     mobile_no = models.CharField(max_length=20)
     address = models.TextField()
     interested_categories = models.TextField()
+    photo = models.ImageField(upload_to='student_images/', null=True)
 
     def __str__(self):
         return self.full_name
