@@ -133,4 +133,5 @@ class EnrolledStudentListAPIView(generics.ListAPIView):
     def get_queryset(self):
         qs = super().get_queryset()
         course_id = self.kwargs['course_id']
+        print('-' * 30, 'data', course_id)
         return qs.filter(course_id=course_id)

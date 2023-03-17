@@ -53,6 +53,12 @@ class Course(models.Model):
     def total_enrolled_students(self):
         return self.enrolled_courses.all().count()
 
+    def course_rating(self):
+        course_rating = self.ratings.all().aggregate(
+            avg_rating=models.Avg('rating')
+        )
+        return course_rating['avg_rating']
+
 
 def video_upload_path(instance, filename):
     """Custom file 'upload_to' directory returned from formatted string"""

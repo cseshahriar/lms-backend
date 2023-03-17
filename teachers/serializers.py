@@ -59,7 +59,7 @@ class CourseSerializer(serializers.ModelSerializer):
             'id', 'category', 'title', 'description', 'teacher',
             'featured_img', 'technologies',
             'skill_list', 'course_chapters', 'related_courses',
-            'total_enrolled_students'
+            'total_enrolled_students', 'course_rating'
         )
         extra_kwargs = {
             'id': {'read_only': True},

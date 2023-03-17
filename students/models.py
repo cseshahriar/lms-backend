@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator 
 from teachers.models import Course
 
 
@@ -29,3 +30,18 @@ class StudentCourseEnrolment(models.Model):
 
     def __str__(self):
         return f"{self.course.title} - {self.student.full_name}"
+
+
+class CourseRating(models.Model):
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='ratings'
+    )
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE, related_name='ratings'
+    )
+    rating = models.PositiveIntegerField(
+        default=1, validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+
+    class Meta:
+        unique_together = ['course', 'student']
