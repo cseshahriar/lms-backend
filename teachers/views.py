@@ -11,7 +11,8 @@ from django.contrib.auth.hashers import check_password
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .serializers import (
-    TeacherSerializer, CourseCategorySerializer, CourseSerializer,
+    TeacherSerializer, TeacherDetailSerializer,
+    CourseCategorySerializer, CourseSerializer,
     ChapterSerializer
 )
 from . import models
@@ -35,7 +36,7 @@ class TeacherDetailUpdateDeleteAPIView(
     generics.RetrieveUpdateDestroyAPIView
 ):
     queryset = models.Teacher.objects.all()
-    serializer_class = TeacherSerializer
+    serializer_class = TeacherDetailSerializer
     # permission_classes = (permissions.IsAuthenticated, )
 
     def perform_update(self, serializer):

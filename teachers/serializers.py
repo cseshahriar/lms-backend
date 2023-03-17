@@ -20,6 +20,23 @@ class TeacherSerializer(serializers.ModelSerializer):
         depth = 1
 
 
+class TeacherDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Teacher
+        fields = (
+            'id', 'full_name', 'detail', 'email', 'password', 'qualification',
+            'mobile_no', 'skills', 'teacher_courses', 'skill_list', 'photo'
+        )
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'password': {'write_only': True, 'required': False},
+            'email': {'read_only': True, 'required': False},
+            'photo': {'required': False},
+        }
+        depth = 1
+
+
 class CourseCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
