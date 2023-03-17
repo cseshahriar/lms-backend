@@ -36,6 +36,7 @@ class CourseChapterSerializer(serializers.ModelSerializer):
             'description',
             'video',
             'remarks',
+            'duration'
         )
 
 
