@@ -42,6 +42,7 @@ class Course(models.Model):
     description = models.TextField()
     featured_img = models.ImageField(upload_to='course_images/', null=True)
     technologies = models.TextField(null=True)
+    duration = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.title
