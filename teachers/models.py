@@ -75,6 +75,7 @@ class Chapter(models.Model):
     description = models.TextField()
     video = models.FileField(upload_to=video_upload_path, null=True)
     remarks = models.TextField(null=True)
+    duration = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = 'Chapters'

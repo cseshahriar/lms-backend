@@ -92,6 +92,7 @@ class ChapterSerializer(serializers.ModelSerializer):
             'description',
             'video',
             'remarks',
+            'duration'
         )
 
     def to_representation(self, instance):
