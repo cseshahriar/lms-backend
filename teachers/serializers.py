@@ -1,6 +1,12 @@
+import re
 from rest_framework import serializers
 from rest_framework.response import Response
+from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.password_validation import validate_password
+
+from django.contrib.auth import authenticate
 from .models import Teacher, CourseCategory, Course, Chapter
 
 
@@ -35,6 +41,35 @@ class TeacherDetailSerializer(serializers.ModelSerializer):
             'photo': {'required': False},
         }
         depth = 1
+
+
+class TeacherPasswordChangeSerializer(serializers.Serializer):
+    pk = serializers.CharField(required=False)
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(
+        required=True, validators=[validate_password]
+    )
+    confirm_password = serializers.CharField(required=True)
+
+    def validate(self, data):
+        pk = int(data['pk'])
+        if data['new_password'] != data['confirm_password']:
+            raise serializers.ValidationError({
+                "new_password": "Passwords does not match.",
+            })
+
+        user = Teacher.objects.filter(pk=pk).first()
+        if user is None:
+            raise serializers.ValidationError({
+                "new_password": "User does not exist."
+            })
+
+        if not check_password(data['old_password'], user.password):
+            raise serializers.ValidationError({
+                "old_password": "Old Passwords do not match."
+            })
+
+        return data
 
 
 class CourseCategorySerializer(serializers.ModelSerializer):

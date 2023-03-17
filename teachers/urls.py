@@ -9,6 +9,7 @@ urlpatterns = [
         'teachers/<int:pk>/', views.TeacherDetailUpdateDeleteAPIView.as_view()
     ),
     path('teachers/login/', views.TeacherLoginAPIView.as_view()),
+    path('teachers/password-reset/', views.PasswordChangeView.as_view()),
     # path('teachers/login/', views.teacher_login),
 
     # categories
