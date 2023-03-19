@@ -11,9 +11,10 @@ from django.contrib.auth.hashers import check_password
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .serializers import (
-    StudentSerializer, StudentCourseEnrolmentSerializer
+    StudentSerializer, StudentCourseEnrolmentSerializer,
+    CourseRatingSerializer
 )
-from .models import Student, StudentCourseEnrolment
+from .models import Student, StudentCourseEnrolment, CourseRating
 from teachers.models import Course
 
 
@@ -145,3 +146,15 @@ class EnrolledStudentListAPIView(generics.ListAPIView):
         course_id = self.kwargs['course_id']
         print('-' * 30, 'data', course_id)
         return qs.filter(course_id=course_id)
+
+
+class CourseRatingListCreateAPIView(generics.ListCreateAPIView):
+    queryset = CourseRating.objects.all()
+    serializer_class = CourseRatingSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if self.kwargs.get('course_id', None) is not None:
+            course_id = self.kwargs['course_id']
+            return qs.filter(course_id=course_id)
+        return qs

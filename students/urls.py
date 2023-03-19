@@ -19,4 +19,8 @@ urlpatterns = [
         'enrollments/courses/<int:course_id>/',
         views.EnrolledStudentListAPIView.as_view()
     ),
+    path(
+        'courses/ratings/',
+        views.CourseRatingListCreateAPIView.as_view()
+    ),
 ]

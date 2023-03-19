@@ -43,6 +43,7 @@ class CourseRating(models.Model):
     rating = models.PositiveIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
+    comment = models.TextField(null=True, blank=False)
 
     class Meta:
         unique_together = ['course', 'student']
