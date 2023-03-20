@@ -37,7 +37,9 @@ class StudentCourseEnrolmentSerializer(serializers.ModelSerializer):
 class CourseRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseRating
-        fields = ('id', 'course', 'student', 'rating', 'comment')
+        fields = (
+            'id', 'course', 'student', 'rating', 'comment', 'rating_time',
+        )
 
         validators = [
             UniqueTogetherValidator(

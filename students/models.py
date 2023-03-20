@@ -44,6 +44,7 @@ class CourseRating(models.Model):
         default=1, validators=[MinValueValidator(1), MaxValueValidator(5)]
     )
     comment = models.TextField(null=True, blank=False)
+    rating_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ['course', 'student']
