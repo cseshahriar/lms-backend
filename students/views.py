@@ -164,17 +164,11 @@ class CourseRatingListCreateAPIView(generics.ListCreateAPIView):
 
         return qs
 
-    # def create(self, request, *args, **kwargs):
-    #     print('-' * 30, 'data', request.data)
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     headers = self.get_success_headers(serializer.data)
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-
-    # def perform_create(self, serializer):
-    #     print('-' * 30, 'data', serializer.data)
-    #     course_id = serializer.data.pop('course', None)
-    #     student_id = serializer.data.pop('student', None)
-    #     serializer.save(course_id=course_id, student_id=student_id)
+@api_view(['GET'])
+def rating_status(request, course_id, student_id):
+    if CourseRating.objects.filter(
+        course_id=course_id, student_id=student_id
+    ).exists():
+        return JsonResponse({'bool': True})
+    return JsonResponse({'bool': False})

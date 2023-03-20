@@ -23,4 +23,8 @@ urlpatterns = [
         'course-rating/',
         views.CourseRatingListCreateAPIView.as_view()
     ),
+    path(
+        'rating_status/<int:course_id>/<int:student_id>/',
+        views.rating_status
+    ),
 ]
