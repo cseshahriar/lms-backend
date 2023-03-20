@@ -26,5 +26,7 @@ class StudentCourseEnrolmentAdmin(admin.ModelAdmin):
 
 @admin.register(CourseRating)
 class CourseRatingAdmin(admin.ModelAdmin):
-    list_display = ('id', 'course', 'student', 'rating')
+    list_display = ('id', 'course', 'student', 'rating', 'rating_time')
     list_filter = ('course', 'student',)
+
+    ordering = ('-rating_time', )

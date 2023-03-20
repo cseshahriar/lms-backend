@@ -157,4 +157,24 @@ class CourseRatingListCreateAPIView(generics.ListCreateAPIView):
         if self.kwargs.get('course_id', None) is not None:
             course_id = self.kwargs['course_id']
             return qs.filter(course_id=course_id)
+
+        if self.kwargs.get('student_id', None) is not None:
+            student_id = self.kwargs['student_id']
+            return qs.filter(student_id=student_id)
+
         return qs
+
+    # def create(self, request, *args, **kwargs):
+    #     print('-' * 30, 'data', request.data)
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+    # def perform_create(self, serializer):
+    #     print('-' * 30, 'data', serializer.data)
+    #     course_id = serializer.data.pop('course', None)
+    #     student_id = serializer.data.pop('student', None)
+    #     serializer.save(course_id=course_id, student_id=student_id)

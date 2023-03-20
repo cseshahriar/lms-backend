@@ -20,7 +20,7 @@ urlpatterns = [
         views.EnrolledStudentListAPIView.as_view()
     ),
     path(
-        'courses/ratings/',
+        'course-rating/',
         views.CourseRatingListCreateAPIView.as_view()
     ),
 ]

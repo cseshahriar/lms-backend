@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from .models import Student, StudentCourseEnrolment, CourseRating
+from teachers.serializers import CourseSerializer
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -31,7 +32,14 @@ class StudentCourseEnrolmentSerializer(serializers.ModelSerializer):
                 message="This course you are already taken."
             )
         ]
-        depth = 1
+
+    def __init__(self, *args, **kwargs):
+        super(StudentCourseEnrolmentSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1
+
 
 
 class CourseRatingSerializer(serializers.ModelSerializer):
@@ -43,9 +51,26 @@ class CourseRatingSerializer(serializers.ModelSerializer):
 
         validators = [
             UniqueTogetherValidator(
-                queryset=StudentCourseEnrolment.objects.all(),
+                queryset=CourseRating.objects.all(),
                 fields=['course', 'student'],
-                message="This course you are already taken."
+                message="Already review given for this course."
             )
         ]
-        depth = 1
+
+    def validate(self, data):
+        validation_fields = ['comment', ]
+        errors = {}
+        for validation_field in validation_fields:
+            if validation_field not in data or data[validation_field] is None:
+                errors[f"{validation_field}"] = "This field is required."
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return data
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['course'] = CourseSerializer(instance.course).data
+        response['student'] = StudentSerializer(instance.student).data
+        return response

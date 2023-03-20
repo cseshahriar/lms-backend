@@ -118,8 +118,6 @@ class CourseSerializer(serializers.ModelSerializer):
             'id': {'read_only': True},
             'category': {'required': True},
         }
-        # depth = 1
-        # depth 1 is like to_representation and course_chapters is related name
 
     def get_related_courses(self, obj):
         related_courses = Course.objects.filter(
