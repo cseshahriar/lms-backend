@@ -12,6 +12,19 @@ class Teacher(models.Model):
     skills = models.TextField()
     photo = models.ImageField(upload_to='teacher_images/', null=True)
 
+    def total_courses(self):
+        return self.teacher_courses.all().count()
+
+    def total_chapters(self):
+        return Chapter.objects.filter(course__teacher=self).count()
+
+    def total_students(self):
+        total = 0
+        courses = self.teacher_courses.all()
+        for course in courses:
+            total += course.enrolled_courses.all().count()
+        return total
+
     def skill_list(self):
         """ return list of skills"""
         return self.skills.split(',')

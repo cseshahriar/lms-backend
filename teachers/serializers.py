@@ -16,7 +16,9 @@ class TeacherSerializer(serializers.ModelSerializer):
         model = Teacher
         fields = (
             'id', 'full_name', 'detail', 'email', 'password', 'qualification',
-            'mobile_no', 'skills', 'teacher_courses', 'skill_list', 'photo'
+            'mobile_no', 'skills', 'teacher_courses', 'skill_list', 'photo',
+            'total_courses', 'total_chapters',
+            'total_students'
         )
         extra_kwargs = {
             'id': {'read_only': True},
@@ -32,7 +34,8 @@ class TeacherDetailSerializer(serializers.ModelSerializer):
         model = Teacher
         fields = (
             'id', 'full_name', 'detail', 'email', 'password', 'qualification',
-            'mobile_no', 'skills', 'teacher_courses', 'skill_list', 'photo'
+            'mobile_no', 'skills', 'teacher_courses', 'skill_list', 'photo',
+            'total_courses', 'total_chapters', 'total_students'
         )
         extra_kwargs = {
             'id': {'read_only': True},
