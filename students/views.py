@@ -12,10 +12,9 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .serializers import (
     StudentSerializer, StudentCourseEnrolmentSerializer,
-    CourseRatingSerializer
+    CourseRatingSerializer, StudentPasswordChangeSerializer
 )
 from .models import Student, StudentCourseEnrolment, CourseRating
-from teachers.models import Course
 
 
 class StudentListCreateAPIView(generics.ListCreateAPIView):
@@ -93,6 +92,24 @@ class StudentLoginAPIView(APIView):
             return Response(
                 {'error': 'User did not found.'},
                 status=status.HTTP_401_UNAUTHORIZED
+            )
+
+
+class PasswordChangeView(APIView):
+    """ password change api view"""
+    def post(self, request, format=None):
+        serializer = StudentPasswordChangeSerializer(data=request.data)
+        if serializer.is_valid():
+            pk = serializer.validated_data.get('pk')
+            new_password = serializer.validated_data.get('new_password')
+            user = Student.objects.filter(pk=pk).first()
+            password = make_password(new_password)
+            user.password = password
+            user.save()
+            return Response({'message': 'Password changed successfully.'})
+        else:
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
 
 

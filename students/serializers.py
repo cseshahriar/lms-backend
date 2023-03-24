@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
-
+from django.core.exceptions import ValidationError
+from django.core.validators import EmailValidator
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.password_validation import validate_password
 from .models import Student, StudentCourseEnrolment, CourseRating
 from teachers.serializers import CourseSerializer
 
@@ -18,6 +21,35 @@ class StudentSerializer(serializers.ModelSerializer):
             'password': {'write_only': True},
         }
         depth = 1
+
+
+class StudentPasswordChangeSerializer(serializers.Serializer):
+    pk = serializers.CharField(required=False)
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(
+        required=True, validators=[validate_password]
+    )
+    confirm_password = serializers.CharField(required=True)
+
+    def validate(self, data):
+        pk = int(data['pk'])
+        if data['new_password'] != data['confirm_password']:
+            raise serializers.ValidationError({
+                "new_password": "Passwords does not match.",
+            })
+
+        user = Student.objects.filter(pk=pk).first()
+        if user is None:
+            raise serializers.ValidationError({
+                "new_password": "User does not exist."
+            })
+
+        if not check_password(data['old_password'], user.password):
+            raise serializers.ValidationError({
+                "old_password": "Old Passwords do not match."
+            })
+
+        return data
 
 
 class StudentCourseEnrolmentSerializer(serializers.ModelSerializer):
@@ -39,7 +71,6 @@ class StudentCourseEnrolmentSerializer(serializers.ModelSerializer):
         self.Meta.depth = 0
         if request and request.method == 'GET':
             self.Meta.depth = 1
-
 
 
 class CourseRatingSerializer(serializers.ModelSerializer):
