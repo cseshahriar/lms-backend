@@ -24,6 +24,11 @@ urlpatterns = [
     # course favorites
     path('favorites/', views.StudentFavoriteCourseListAPIView.as_view()),
     path(
+        'favorite_status/<int:course_id>/<int:student_id>/',
+        views.course_favorite_status
+    ),
+    # course rating
+    path(
         'course-rating/',
         views.CourseRatingListCreateAPIView.as_view()
     ),

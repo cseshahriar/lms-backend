@@ -202,6 +202,15 @@ class StudentFavoriteCourseListAPIView(generics.ListCreateAPIView):
         return qs
 
 
+@api_view(['GET'])
+def course_favorite_status(request, course_id, student_id):
+    if StudentFavoriteCourse.objects.filter(
+        course_id=course_id, student_id=student_id
+    ).exists():
+        return JsonResponse({'bool': True})
+    return JsonResponse({'bool': False})
+
+
 class CourseRatingListCreateAPIView(generics.ListCreateAPIView):
     queryset = CourseRating.objects.all()
     serializer_class = CourseRatingSerializer
