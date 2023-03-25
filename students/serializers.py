@@ -4,7 +4,9 @@ from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.password_validation import validate_password
-from .models import Student, StudentCourseEnrolment, CourseRating
+from .models import (
+    Student, StudentCourseEnrolment, CourseRating, StudentFavoriteCourse
+)
 from teachers.serializers import CourseSerializer
 
 
@@ -55,7 +57,7 @@ class StudentPasswordChangeSerializer(serializers.Serializer):
 class StudentCourseEnrolmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentCourseEnrolment
-        fields = ('id', 'course', 'student', 'enrolled_time')
+        fields = ('id', 'course', 'student', 'enrolled_time', 'is_paid')
 
         validators = [
             UniqueTogetherValidator(
@@ -67,6 +69,27 @@ class StudentCourseEnrolmentSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super(StudentCourseEnrolmentSerializer, self).__init__(*args, **kwargs)
+        request = self.context.get('request')
+        self.Meta.depth = 0
+        if request and request.method == 'GET':
+            self.Meta.depth = 1
+
+
+class StudentFavoriteCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentFavoriteCourse
+        fields = ('id', 'course', 'student', 'status')
+
+        validators = [
+            UniqueTogetherValidator(
+                queryset=StudentCourseEnrolment.objects.all(),
+                fields=['course', 'student'],
+                message="This course you are already favorite."
+            )
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(StudentFavoriteCourseSerializer, self).__init__(*args, **kwargs)
         request = self.context.get('request')
         self.Meta.depth = 0
         if request and request.method == 'GET':

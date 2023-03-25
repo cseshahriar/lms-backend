@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-
-from .models import Student, StudentCourseEnrolment, CourseRating
+from .models import (
+    Student, StudentCourseEnrolment, CourseRating, StudentFavoriteCourse
+)
 
 
 @admin.register(Student)
@@ -22,6 +23,12 @@ class StudentAdmin(admin.ModelAdmin):
 class StudentCourseEnrolmentAdmin(admin.ModelAdmin):
     list_display = ('id', 'course', 'student', 'enrolled_time')
     list_filter = ('course', 'student', 'enrolled_time')
+
+
+@admin.register(StudentFavoriteCourse)
+class StudentFavoriteCourseAdmin(admin.ModelAdmin):
+    list_display = ('id', 'course', 'student', 'status')
+    list_filter = ('course', 'student', )
 
 
 @admin.register(CourseRating)

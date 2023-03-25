@@ -12,9 +12,11 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from .serializers import (
     StudentSerializer, StudentCourseEnrolmentSerializer,
-    CourseRatingSerializer, StudentPasswordChangeSerializer
+    CourseRatingSerializer, StudentPasswordChangeSerializer,
+    StudentFavoriteCourseSerializer
 )
-from .models import Student, StudentCourseEnrolment, CourseRating
+from .models import (
+    Student, StudentCourseEnrolment, CourseRating, StudentFavoriteCourse)
 
 
 class StudentListCreateAPIView(generics.ListCreateAPIView):
@@ -168,6 +170,17 @@ def enrollment_status(request, course_id, student_id):
 class EnrolledStudentListAPIView(generics.ListAPIView):
     queryset = StudentCourseEnrolment.objects.all()
     serializer_class = StudentCourseEnrolmentSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        course_id = self.kwargs['course_id']
+        print('-' * 30, 'data', course_id)
+        return qs.filter(course_id=course_id)
+
+
+class StudentFavoriteCourseListAPIView(generics.ListAPIView):
+    queryset = StudentFavoriteCourse.objects.all()
+    serializer_class = StudentFavoriteCourseSerializer
 
     def get_queryset(self):
         qs = super().get_queryset()

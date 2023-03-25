@@ -25,6 +25,7 @@ class StudentCourseEnrolment(models.Model):
         Student, on_delete=models.CASCADE, related_name="enrolled_students"
     )
     enrolled_time = models.DateTimeField(auto_now_add=True)
+    is_paid = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ['course', 'student']
@@ -48,3 +49,19 @@ class CourseRating(models.Model):
 
     class Meta:
         unique_together = ['course', 'student']
+
+
+class StudentFavoriteCourse(models.Model):
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name="favorite_courses"
+    )
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE, related_name="favorite_students"
+    )
+    status = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ['course', 'student']
+
+    def __str__(self):
+        return f"{self.course.title} - {self.student.full_name}"
