@@ -138,8 +138,12 @@ class StudentEnrollmentListCreateAPIView(generics.ListCreateAPIView):
         if 'studentId' in self.request.GET:  # return recommended course
             student_id = int(self.request.GET.get('studentId'))
             student = Student.objects.get(id=student_id)
+            interested_categories = [
+                x.lower().strip()
+                for x in student.interested_categories.split(',')
+            ]
             qs = qs.filter(
-                course__technologies__icontains=student.interested_categories
+                course__technologies__in=interested_categories
             ).distinct()
 
         # return course by teacher
