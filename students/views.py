@@ -178,15 +178,28 @@ class EnrolledStudentListAPIView(generics.ListAPIView):
         return qs.filter(course_id=course_id)
 
 
-class StudentFavoriteCourseListAPIView(generics.ListAPIView):
+class StudentFavoriteCourseListAPIView(generics.ListCreateAPIView):
     queryset = StudentFavoriteCourse.objects.all()
     serializer_class = StudentFavoriteCourseSerializer
 
     def get_queryset(self):
         qs = super().get_queryset()
-        course_id = self.kwargs['course_id']
-        print('-' * 30, 'data', course_id)
-        return qs.filter(course_id=course_id)
+
+        # return course_id by teacher
+        if 'course_id' in self.request.GET:
+            course_id = int(self.request.GET.get('course_id'))
+            qs = qs.filter(
+                course_id=course_id
+            ).order_by('-id')
+
+        # return students by teacher
+        if 'student_id' in self.request.GET:
+            student_id = int(self.request.GET.get('student_id'))
+            qs = qs.filter(
+                student_id=student_id
+            ).order_by('-id')
+
+        return qs
 
 
 class CourseRatingListCreateAPIView(generics.ListCreateAPIView):

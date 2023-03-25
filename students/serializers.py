@@ -82,7 +82,7 @@ class StudentFavoriteCourseSerializer(serializers.ModelSerializer):
 
         validators = [
             UniqueTogetherValidator(
-                queryset=StudentCourseEnrolment.objects.all(),
+                queryset=StudentFavoriteCourse.objects.all(),
                 fields=['course', 'student'],
                 message="This course you are already favorite."
             )
