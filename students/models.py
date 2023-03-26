@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.core.validators import MaxValueValidator, MinValueValidator
 from teachers.models import Course
 
 
@@ -65,3 +65,15 @@ class StudentFavoriteCourse(models.Model):
 
     def __str__(self):
         return f"{self.course.title} - {self.student.full_name}"
+
+
+class StudentAssignment(models.Model):
+    student = models.ForeignKey(
+        Student, on_delete=models.CASCADE, related_name='assignments'
+    )
+    title = models.CharField(max_length=255)
+    detail = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
