@@ -13,10 +13,12 @@ from django.core.exceptions import ValidationError
 from .serializers import (
     StudentSerializer, StudentCourseEnrolmentSerializer,
     CourseRatingSerializer, StudentPasswordChangeSerializer,
-    StudentFavoriteCourseSerializer
+    StudentFavoriteCourseSerializer, StudentAssignmentSerializer
 )
 from .models import (
-    Student, StudentCourseEnrolment, CourseRating, StudentFavoriteCourse)
+    Student, StudentCourseEnrolment, CourseRating, StudentFavoriteCourse,
+    StudentAssignment,
+)
 
 
 class StudentListCreateAPIView(generics.ListCreateAPIView):
@@ -243,3 +245,21 @@ def rating_status(request, course_id, student_id):
     ).exists():
         return JsonResponse({'bool': True})
     return JsonResponse({'bool': False})
+
+
+class StudentAssignmentListCreateAPIView(generics.ListCreateAPIView):
+    queryset = StudentAssignment.objects.all()
+    serializer_class = StudentAssignmentSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        if self.kwargs.get('teacher_id', None) is not None:
+            teacher_id = self.kwargs['teacher_id']
+            return qs.filter(teacher_id=teacher_id)
+
+        if self.kwargs.get('student_id', None) is not None:
+            student_id = self.kwargs['student_id']
+            return qs.filter(student_id=student_id)
+
+        return qs

@@ -40,4 +40,8 @@ urlpatterns = [
         'rating_status/<int:course_id>/<int:student_id>/',
         views.rating_status
     ),
+    # StudentAssignment
+    path(
+        'assignments/', views.StudentAssignmentListCreateAPIView.as_view()
+    )
 ]

@@ -8,7 +8,7 @@ from .models import (
     Student, StudentCourseEnrolment, CourseRating, StudentFavoriteCourse,
     StudentAssignment
 )
-from teachers.serializers import CourseSerializer
+from teachers.serializers import CourseSerializer, TeacherSerializer
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -135,10 +135,11 @@ class StudentAssignmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentAssignment
         fields = (
-            'id', 'student', 'title', 'detail', 'created_at',
+            'id', 'teacher', 'student', 'title', 'detail', 'created_at',
         )
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['student'] = StudentSerializer(instance.student).data
+        response['teacher'] = TeacherSerializer(instance.teacher).data
         return response

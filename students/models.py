@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from teachers.models import Course
+from teachers.models import Course, Teacher
 
 
 class Student(models.Model):
@@ -68,6 +68,10 @@ class StudentFavoriteCourse(models.Model):
 
 
 class StudentAssignment(models.Model):
+    teacher = models.ForeignKey(
+        Teacher, on_delete=models.CASCADE, related_name='assignments',
+        null=True
+    )
     student = models.ForeignKey(
         Student, on_delete=models.CASCADE, related_name='assignments'
     )
