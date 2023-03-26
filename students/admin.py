@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from .models import (
-    Student, StudentCourseEnrolment, CourseRating, StudentFavoriteCourse
+    Student, StudentCourseEnrolment, CourseRating, StudentFavoriteCourse,
+    StudentAssignment
 )
 
 
@@ -37,3 +38,11 @@ class CourseRatingAdmin(admin.ModelAdmin):
     list_filter = ('course', 'student',)
 
     ordering = ('-rating_time', )
+
+
+@admin.register(StudentAssignment)
+class StudentAssignmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'student', 'title', 'detail')
+    list_filter = ('student', 'title')
+
+    ordering = ('-created_at', )
