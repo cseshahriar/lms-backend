@@ -211,6 +211,14 @@ def course_favorite_status(request, course_id, student_id):
     return JsonResponse({'bool': False})
 
 
+@api_view(['POST'])
+def remove_course_favorite(request, course_id, student_id):
+    StudentFavoriteCourse.objects.filter(
+        course_id=course_id, student_id=student_id
+    ).delete()
+    return JsonResponse({'bool': False})
+
+
 class CourseRatingListCreateAPIView(generics.ListCreateAPIView):
     queryset = CourseRating.objects.all()
     serializer_class = CourseRatingSerializer

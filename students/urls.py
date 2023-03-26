@@ -27,6 +27,10 @@ urlpatterns = [
         'favorite_status/<int:course_id>/<int:student_id>/',
         views.course_favorite_status
     ),
+    path(
+        'remove_favorite_status/<int:course_id>/<int:student_id>/',
+        views.remove_course_favorite
+    ),
     # course rating
     path(
         'course-rating/',
