@@ -263,3 +263,21 @@ class StudentAssignmentListCreateAPIView(generics.ListCreateAPIView):
             return qs.filter(student_id=student_id)
 
         return qs
+
+
+class StudentAssignmentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StudentAssignment.objects.all()
+    serializer_class = StudentAssignmentSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        if self.kwargs.get('teacher_id', None) is not None:
+            teacher_id = self.kwargs['teacher_id']
+            return qs.filter(teacher_id=teacher_id)
+
+        if self.kwargs.get('student_id', None) is not None:
+            student_id = self.kwargs['student_id']
+            return qs.filter(student_id=student_id)
+
+        return qs

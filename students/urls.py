@@ -43,5 +43,8 @@ urlpatterns = [
     # StudentAssignment
     path(
         'assignments/', views.StudentAssignmentListCreateAPIView.as_view()
+    ),
+    path(
+        'assignments/<int:pk>', views.StudentAssignmentDetailAPIView.as_view()
     )
 ]

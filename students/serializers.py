@@ -135,7 +135,8 @@ class StudentAssignmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentAssignment
         fields = (
-            'id', 'teacher', 'student', 'title', 'detail', 'created_at',
+            'id', 'teacher', 'student', 'title', 'detail', 'student_status',
+            'created_at',
         )
 
     def to_representation(self, instance):

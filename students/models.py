@@ -77,6 +77,7 @@ class StudentAssignment(models.Model):
     )
     title = models.CharField(max_length=255)
     detail = models.TextField(null=True)
+    student_status = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
