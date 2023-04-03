@@ -16,6 +16,18 @@ class Student(models.Model):
     def __str__(self):
         return self.full_name
 
+    def total_enrolled_students(self):
+        return self.enrolled_students.all().count()
+
+    def total_favorite_students(self):
+        return self.favorite_students.all().count()
+
+    def total_complete_assignments(self):
+        return self.assignments.filter(student_status=True).count()
+
+    def total_pending_assignments(self):
+        return self.assignments.filter(student_status=False).count()
+
 
 class StudentCourseEnrolment(models.Model):
     course = models.ForeignKey(

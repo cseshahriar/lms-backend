@@ -17,7 +17,9 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = (
             'id', 'full_name', 'email', 'password', 'qualification',
-            'mobile_no', 'address', 'interested_categories', 'photo'
+            'mobile_no', 'address', 'interested_categories', 'photo',
+            'total_enrolled_students', 'total_favorite_students',
+            'total_complete_assignments', 'total_pending_assignments'
         )
         extra_kwargs = {
             'id': {'read_only': True},
